@@ -1,0 +1,11 @@
+Disease = ['Atelectasis', 'Cardiomegaly', 'Effusion', 'Infiltration', 'Mass', 'Nodule', 'Pneumonia', 'Pneumothorax', 'Consolidation', 'Edema', 'Emphysema', 'Fibrosis', 'Pleural_Thickening', 'Hernia']
+Disease = ['Atelectasis', 'Cardiomegaly', 'Effusion', 'Infiltration', 'Mass', 'Nodule', 'Pneumonia', 'Pneumothorax', 'Consolidation', 'Edema', 'Emphysema', 'Fibrosis', 'Pleural_Thickening', 'Hernia']
+vit_small_imagenet_1k_run_0: AUC = [0.6477	0.6048	0.7205	0.6446	0.5911	0.5864	0.5423	0.6682	0.6807	0.7392
+ 0.644 	0.6712	0.6416	0.5951]
+vit_small_imagenet_1k_run_0: AUC = 0.6412
+vit_small_imagenet_1k_run_0: AUC = [0.6477	0.6048	0.7205	0.6446	0.5911	0.5864	0.5423	0.6682	0.6807	0.7392
+ 0.644 	0.6712	0.6416	0.5951]
+vit_small_imagenet_1k_run_0: AUC = 0.6412
+All trials: mAUC  = [0.6412	0.6412]
+Mean AUC over All trials = 0.6412
+STD over All trials:  = 0.0000

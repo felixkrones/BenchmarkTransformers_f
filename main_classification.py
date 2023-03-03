@@ -93,7 +93,7 @@ def get_args_parser():
     parser.add_option("--start_index", dest="start_index", help="the start model index", default=0, type="int")
     parser.add_option("--clean", dest="clean", help="clean the existing data", default=False, action="callback",
                       callback=vararg_callback_bool)
-    parser.add_option("--resume", dest="resume", help="whether latest checkpoint", default=False, action="callback",
+    parser.add_option("--resume", dest="resume", help="whether latest checkpoint", default=True, action="callback",
                       callback=vararg_callback_bool)
     parser.add_option("--workers", dest="workers", help="number of CPU workers", default=8, type="int")
     parser.add_option("--print_freq", dest="print_freq", help="print frequency", default=50, type="int")
