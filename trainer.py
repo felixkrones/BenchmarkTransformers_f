@@ -83,12 +83,12 @@ def test_classification(checkpoint, data_loader_test, device, args):
 
   model.eval()
 
-  y_test = torch.FloatTensor().cuda()
-  p_test = torch.FloatTensor().cuda()
+  y_test = torch.FloatTensor().to(device)
+  p_test = torch.FloatTensor().to(device)
 
   with torch.no_grad():
     for i, (samples, targets) in enumerate(tqdm(data_loader_test)):
-      targets = targets.cuda()
+      targets = targets.to(device)
       y_test = torch.cat((y_test, targets), 0)
 
       if len(samples.size()) == 4:
@@ -97,7 +97,7 @@ def test_classification(checkpoint, data_loader_test, device, args):
       elif len(samples.size()) == 5:
         bs, n_crops, c, h, w = samples.size()
 
-      varInput = torch.autograd.Variable(samples.view(-1, c, h, w).cuda())
+      varInput = torch.autograd.Variable(samples.view(-1, c, h, w).to(device))
 
       out = model(varInput)
       if args.data_set == "RSNAPneumonia":
