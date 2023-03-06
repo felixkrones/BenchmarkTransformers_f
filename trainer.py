@@ -37,7 +37,7 @@ def train_one_epoch(data_loader_train, device,model, criterion, optimizer, epoch
       progress.display(i)
 
 
-def evaluate(data_loader_val, device, model, criterion):
+def evaluate(data_loader_val, device, model, criterion, args=None):
   model.eval()
 
   with torch.no_grad():
@@ -72,6 +72,9 @@ def evaluate(data_loader_val, device, model, criterion):
     AUC_mean = np.mean(AUC_all)
 
     print(f"Validation AUC_mean: {AUC_mean:.4f}, AUC_all: {AUC_all}")
+    if args is not None and args.data_set == "CheXpert":
+      AUC_mean_5 = np.mean(AUC_all[[2,5,6,8,10]])
+      print(f"Validation AUC_mean_5: {AUC_mean_5:.4f}")
 
   return losses.avg
 

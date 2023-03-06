@@ -25,7 +25,7 @@ def build_classification_model(args):
         print('Loading pretrained {} weights for {} from timm.'.format(args.init, args.model_name))
         if args.model_name.lower() == "vit_base":
             if args.init.lower() =="random":
-                model = VisionTransformer(num_classes=args.num_class,
+                model = VisionTransformer(in_chans=args.nc, num_classes=args.num_class,
                         patch_size=16, embed_dim=768, depth=12, num_heads=12, mlp_ratio=4, qkv_bias=True, drop_path_rate=0.1,
                         norm_layer=partial(nn.LayerNorm, eps=1e-6))
                 model.default_cfg = _cfg()
@@ -37,7 +37,7 @@ def build_classification_model(args):
             elif args.init.lower() =="sam":
                 model = timm.create_model('vit_base_patch16_224_sam', num_classes=args.num_class, pretrained=True)
             elif args.init.lower() =="dino":
-                model = VisionTransformer(num_classes=args.num_class,
+                model = VisionTransformer(in_chans=args.nc, num_classes=args.num_class,
                         patch_size=16, embed_dim=768, depth=12, num_heads=12, mlp_ratio=4, qkv_bias=True,
                         norm_layer=partial(nn.LayerNorm, eps=1e-6))
                 model.default_cfg = _cfg()
@@ -59,7 +59,7 @@ def build_classification_model(args):
                 model = timm.create_model('vit_small_patch16_224_in21k', num_classes=args.num_class, pretrained=True)
             elif args.init.lower() =="dino":
                 #model = timm.create_model('vit_small_patch16_224_dino', num_classes=args.num_class, pretrained=True)
-                model = VisionTransformer(num_classes=args.num_class,
+                model = VisionTransformer(in_chans=args.nc, num_classes=args.num_class,
                     patch_size=16, embed_dim=384, depth=12, num_heads=6, mlp_ratio=4, qkv_bias=True,
                     norm_layer=partial(nn.LayerNorm, eps=1e-6))
                 model.default_cfg = _cfg()
@@ -89,14 +89,14 @@ def build_classification_model(args):
             if args.init.lower() == "simmim":
                 model = simmim.create_model(args)
             else:
-                model = VisionTransformer(num_classes=args.num_class,
+                model = VisionTransformer(in_chans=args.nc, num_classes=args.num_class,
                         patch_size=16, embed_dim=768, depth=12, num_heads=12, mlp_ratio=4, qkv_bias=True,
                         norm_layer=partial(nn.LayerNorm, eps=1e-6))
                 model.default_cfg = _cfg()
                 model = load_pretrained_weights(model, args.init.lower(), args.pretrained_weights)
             
         elif args.model_name.lower() == "vit_small":
-            model = VisionTransformer(num_classes=args.num_class,
+            model = VisionTransformer(in_chans=args.nc, num_classes=args.num_class,
                     patch_size=16, embed_dim=384, depth=12, num_heads=6, mlp_ratio=4, qkv_bias=True,
                     norm_layer=partial(nn.LayerNorm, eps=1e-6))
             model.default_cfg = _cfg()

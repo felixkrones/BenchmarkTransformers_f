@@ -101,7 +101,7 @@ def classification_engine(args, model_path, output_path, diseases, dataset_train
       for epoch in range(start_epoch, args.epochs):
         train_one_epoch(data_loader_train,device, model, criterion, optimizer, epoch)
 
-        val_loss = evaluate(data_loader_val, device,model, criterion)
+        val_loss = evaluate(data_loader_val, device,model, criterion, args)
 
         lr_scheduler.step(val_loss)
 
