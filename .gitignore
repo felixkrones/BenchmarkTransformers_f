@@ -10,6 +10,8 @@ models/*
 runs/*
 Pipfile.lock
 Pipfile
+*.pth
+*.txt
 
 # exception to the rule
 !*/.gitkeep

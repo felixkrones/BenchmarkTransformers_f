@@ -14,6 +14,10 @@ from timm.models.layers import trunc_normal_, PatchEmbed
 from functools import partial
 import simmim
 
+from gmml.model_utils import get_prepared_checkpoint
+import gmml.data_transformations
+
+
 def build_classification_model(args):
     model = None
     print("Creating model...")
@@ -89,14 +93,14 @@ def build_classification_model(args):
                         patch_size=16, embed_dim=768, depth=12, num_heads=12, mlp_ratio=4, qkv_bias=True,
                         norm_layer=partial(nn.LayerNorm, eps=1e-6))
                 model.default_cfg = _cfg()
-                load_pretrained_weights(model, args.init.lower(), args.pretrained_weights)
+                model = load_pretrained_weights(model, args.init.lower(), args.pretrained_weights)
             
         elif args.model_name.lower() == "vit_small":
             model = VisionTransformer(num_classes=args.num_class,
                     patch_size=16, embed_dim=384, depth=12, num_heads=6, mlp_ratio=4, qkv_bias=True,
                     norm_layer=partial(nn.LayerNorm, eps=1e-6))
             model.default_cfg = _cfg()
-            load_pretrained_weights(model, args.init.lower(), args.pretrained_weights)  
+            model = load_pretrained_weights(model, args.init.lower(), args.pretrained_weights)  
             
         elif args.model_name.lower() == "swin_base":
             if args.init.lower() == "simmim":
@@ -107,7 +111,7 @@ def build_classification_model(args):
                 
         elif args.model_name.lower() == "swin_tiny": 
             model = timm.create_model('swin_tiny_patch4_window7_224', num_classes=args.num_class)
-            load_pretrained_weights(model, args.init.lower(), args.pretrained_weights)
+            model = load_pretrained_weights(model, args.init.lower(), args.pretrained_weights)
           
     if model is None:
         print("Not provide {} pretrained weights for {}.".format(args.init, args.model_name))
@@ -149,7 +153,9 @@ def load_pretrained_weights(model, init, pretrained_weights):
         state_dict = checkpoint['model']
         state_dict = {k.replace('encoder.', ''): v for k, v in state_dict.items() if 'encoder.' in k}
     elif init == "mae":
-        state_dict = checkpoint['model']     
+        state_dict = checkpoint['model']
+    elif "gmml" in init:
+        state_dict = get_prepared_checkpoint(model, pretrained_weights)
     else:
         print("Trying to load the checkpoint for {} at {}, but we cannot guarantee the success.".format(init, pretrained_weights))
         

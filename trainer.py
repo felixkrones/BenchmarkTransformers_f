@@ -1,8 +1,11 @@
 from utils import MetricLogger, ProgressLogger
 from models import ClassificationNet, build_classification_model
+import numpy as np
 import time
 import torch
 from tqdm import tqdm
+
+from gmml.model_utils import metric_AUROC
 
 
 def train_one_epoch(data_loader_train, device,model, criterion, optimizer, epoch):
@@ -30,7 +33,7 @@ def train_one_epoch(data_loader_train, device,model, criterion, optimizer, epoch
     batch_time.update(time.time() - end)
     end = time.time()
 
-    if i % 50 == 0:
+    if i % 200 == 0:
       progress.display(i)
 
 
@@ -43,6 +46,9 @@ def evaluate(data_loader_val, device, model, criterion):
     progress = ProgressLogger(
       len(data_loader_val),
       [batch_time, losses], prefix='Val: ')
+    
+    p_out = torch.FloatTensor().to(device)
+    t_out = torch.FloatTensor().to(device)
 
     end = time.time()
     for i, (samples, targets) in enumerate(data_loader_val):
@@ -51,13 +57,21 @@ def evaluate(data_loader_val, device, model, criterion):
       outputs = model(samples)
       loss = criterion(outputs, targets)
 
+      p_out = torch.cat((p_out, outputs), 0)
+      t_out = torch.cat((t_out, targets), 0)
+
       losses.update(loss.item(), samples.size(0))
       losses.update(loss.item(), samples.size(0))
       batch_time.update(time.time() - end)
       end = time.time()
 
-      if i % 50 == 0:
+      if i % 200 == 0:
         progress.display(i)
+
+    AUC_all = metric_AUROC(t_out, p_out)
+    AUC_mean = np.mean(AUC_all)
+
+    print(f"Validation AUC_mean: {AUC_mean:.4f}, AUC_all: {AUC_all}")
 
   return losses.avg
 
