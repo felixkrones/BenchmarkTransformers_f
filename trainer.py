@@ -73,7 +73,7 @@ def evaluate(data_loader_val, device, model, criterion, args=None):
 
     print(f"Validation AUC_mean: {AUC_mean:.4f}, AUC_all: {AUC_all}")
     if args is not None and args.data_set == "CheXpert":
-      AUC_mean_5 = np.mean(AUC_all[[2,5,6,8,10]])
+      AUC_mean_5 = np.mean(np.array(AUC_all)[[2,5,6,8,10]])
       print(f"Validation AUC_mean_5: {AUC_mean_5:.4f}")
 
   return losses.avg

@@ -12,6 +12,7 @@ Pipfile.lock
 Pipfile
 *.pth
 *.txt
+*.pth.tar
 
 # exception to the rule
 !*/.gitkeep
