@@ -33,7 +33,7 @@ def train_one_epoch(data_loader_train, device,model, criterion, optimizer, epoch
     batch_time.update(time.time() - end)
     end = time.time()
 
-    if i % 200 == 0:
+    if i % 50 == 0:
       progress.display(i)
 
 
@@ -65,7 +65,7 @@ def evaluate(data_loader_val, device, model, criterion, args=None):
       batch_time.update(time.time() - end)
       end = time.time()
 
-      if i % 200 == 0:
+      if i % 50 == 0:
         progress.display(i)
 
     AUC_all = metric_AUROC(t_out, p_out)
