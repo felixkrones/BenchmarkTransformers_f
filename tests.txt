@@ -14,6 +14,7 @@ python main_classification.py --data_set CheXpert \
 
 
 vit base
+
 python main_classification.py --data_set ChestXray14 \
 --model vit_base \
 --init imagenet_21k \
