@@ -1,4 +1,70 @@
-# Benchmarking and Boosting Transformers for Medical Image Classification
+# Extended: Benchmarking and Boosting Transformers for Medical Image Classification
+
+## Extended work
+This is our extension for the repository described below, as we used it in our [Paper]().
+Please cite both if you find it helpful. We thank the original authors!
+It mainly extends the original repository in the following five ways:
+- Extended dataset support
+- Extended model support
+- Extended parameterisation
+- Extended device support
+- Our parameter settings
+- Updated requirements.txt file
+
+### Getting the additional data
+- General tips
+  - Unzip files
+    - `unzip images.zip`
+    - `find . -name '*.tar.gz' -exec tar -xf '{}' \;`
+  - Deleting files
+    - `find . -name '*.tar.gz' -exec rm '{}' \;`
+    - `rm images/batch_download_zips.py`
+  - Think about where to save files and create folders
+    - `mkdir data/raw/name && cd "$_"`
+- NIH ChestXray 14:
+  - Download data from [box](https://nihcc.app.box.com/v/ChestXray-NIHCC)
+  - Download the `images/` folder (there is a nice Python script provided)
+  - Download the metadata file `Data_Entry_2017_v2020.csv`
+  - Download the split files `https://nihcc.app.box.com/v/ChestXray-NIHCC/file/256056636701` and `https://nihcc.app.box.com/v/ChestXray-NIHCC/file/256055473534`
+  - Or download the split files from [Seyyed et al.](https://github.com/LalehSeyyed/Underdiagnosis_NatMed/tree/main/NIH/Splits)
+- MIMIC:
+  1. Get [physionet access](https://physionet.org/register/) and complete [trainings](https://physionet.org/content/mimic-cxr-jpg/view-required-trainings/2.0.0/#1)
+  2. Download images; not all, since we will only use a subset
+      - `wget -r -N -c -np --user <YOUR_USERNAME> --ask-password https://physionet.org/files/mimic-cxr-jpg/2.0.0/files/p10/`
+  3. Download labels
+      - `wget -r -N -c -np --user <YOUR_USERNAME> --ask-password https://physionet.org/files/mimic-cxr-jpg/2.0.0/mimic-cxr-2.0.0-chexpert.csv.gz`
+      - `wget -r -N -c -np --user <YOUR_USERNAME> --ask-password https://physionet.org/files/mimic-cxr-jpg/2.0.0/mimic-cxr-2.0.0-negbio.csv.gz`
+  4. Download metadata:
+      - `wget -r -N -c -np --user <YOUR_USERNAME> --ask-password https://physionet.org/files/mimic-cxr-jpg/2.0.0/mimic-cxr-2.0.0-metadata.csv.gz`
+      - `wget -r -N -c -np --user <YOUR_USERNAME> --ask-password https://physionet.org/files/mimiciv/2.2/hosp/admissions.csv.gz`
+      - `wget -r -N -c -np --user <YOUR_USERNAME> --ask-password https://physionet.org/files/mimiciv/2.2/hosp/patients.csv.gz`
+  5. Unzip all files
+      - `find . -name '*.gz' -exec gunzip '{}' \;`
+- ChestXpert
+    1. Download data from [CheXpert dataset](https://stanfordmlgroup.github.io/competitions/chexpert/)
+        - Either by directly downloading the zip file 
+        - Or by using [AzCopy](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10):
+            - Install AzCopy `sudo bash -c "cd /usr/local/bin; curl -L https://aka.ms/downloadazcopy-v10-linux | tar --strip-components=1 --exclude=*.txt -xzvf -; chmod +x azcopy"`
+            - Get [Link](https://stanfordaimi.azurewebsites.net/datasets/8cbd9ed4-2eb9-4565-affc-111cf4f7ebe2)
+            - Download: `azcopy copy "LINK" "." --recursive=true`
+    2. Create/Copy split file into this folder
+        - Either create own file
+        - Or use file from [Glocker et al.](https://github.com/biomedia-mira/chexploration/tree/main/datafiles/chexpert)
+    3. Unzip all files
+        - `cd chexpertchestxrays-u20210408 && unzip CheXpert-v1.0.zip`
+
+### Running code in parallel
+Run from terminal `torchrun --nproc_per_node=NUM_GPUS_YOU_HAVE ...`
+
+### Running code in background using tmux
+1. SSH connect
+2. `tmux`
+3. Detach: `tmux detach` or `Ctrl+b then d`
+4. List sessions: `tmux list-sessions`
+4. Resume: `tmux attach -t session_number`
+
+
+## Original work
 
 We benchmark how well existing transformer variants that use various (supervised and self-supervised) pre-training methods perform against CNNs on a variety of medical classification tasks. Furthermore, given the data-hungry nature of transformers and the annotation-deficiency challenge of medical imaging, we present a practical approach for bridging the domain gap between photographic and medical images by utilizing unlabeled large-scale in-domain data. 
 

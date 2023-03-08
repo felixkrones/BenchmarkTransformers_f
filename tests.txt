@@ -3,12 +3,12 @@ gmml
 python main_classification.py --data_set CheXpert \
 --model vit_small \
 --init gmml \
---pretrained_weights gmml_1000e_nih.pth \
---data_dir /Users/felixkrones/python_projects/data/ChestXpert/ \
+--proxy_dir /home/ubuntu/models/gmml_1000e_nih.pth \
+--data_dir /home/ubuntu/data/ChestXpert/ \
 --train_list dataset/CheXpert_train_official.csv \
 --val_list dataset/CheXpert_valid_official.csv \
 --test_list dataset/CheXpert_valid_official.csv \
---device mps \
+--device cuda \
 --epochs 20 \
 --nc 3
 
