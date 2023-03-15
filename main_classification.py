@@ -47,7 +47,7 @@ def get_args_parser():
     parser.add_option("--exp_name", dest="exp_name", default="", type="string")
 
     # Optimizer parameters
-    parser.add_option('--opt', default='momentum', type=str, metavar='OPTIMIZER',
+    parser.add_option('--opt', default='adamw', type=str, metavar='OPTIMIZER',
                         help='Optimizer (default: "adamw"')
     parser.add_option('--opt-eps', default=1e-8, type=float, metavar='EPSILON',
                         help='Optimizer Epsilon (default: 1e-8)')

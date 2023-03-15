@@ -24,3 +24,16 @@ python main_classification.py --data_set ChestXray14 \
 --test_list dataset/Xray14_test_official.txt \
 --lr 0.1 --opt sgd --epochs 200 --warmup-epochs 20 --batch_size 64 \
 --device mps
+
+
+# Moco
+python main_classification.py --data_set ChestXray14 \
+--model vit_small \
+--init MoCo_V3 \
+--pretrained_weights /home/ubuntu/models/moco_v3_vit_small_100e_nih_deit.pth \
+--data_dir /home/ubuntu/data/NIHChest14/images/ \
+--train_list dataset/Xray14_train_official.txt \
+--val_list dataset/Xray14_val_official.txt \
+--test_list dataset/Xray14_test_official.txt \
+--lr 0.1 --opt sgd --epochs 200 --warmup-epochs 20 --batch_size 64 \
+--device cuda
